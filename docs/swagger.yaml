@@ -1,0 +1,79 @@
+swagger: '2.0'
+info:
+  description: This is Upload APIs document.
+  version: 1.0.0
+  title: Upload APIs documents
+host: api.schoolly.famtechvn.com
+basePath: /v1/media
+tags:
+  - name: Media upload
+schemes:
+  - https
+paths:
+  /:
+    post:
+      tags:
+        - Media upload
+      summary: Upload media
+      description: Upload media
+      operationId: uploadMedia
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: sc-response-format
+          in: header
+          type: string
+          description: 'to format response data in model: {success: boolean, message: string, data: any}'
+          enum: 
+            - v1
+        - name: target_id
+          in: formData
+          description: id of post | room | comment. if target_type == 'user' then target_id will auto grant to be current user id.
+          required: false
+          type: string
+        - name: target_type
+          type: string
+          in: formData
+          description: that's you are uploading file for
+          enum:
+            - post
+            - user
+            - comment
+            - room
+          required: true
+        - name: target_sub
+          type: string
+          in: formData
+          description: 
+          enum:
+            - cover
+            - avatar
+        - name: media
+          in: formData
+          description: Media upload
+          required: true
+          type: file
+  responses:
+    '200':
+      description: successful operation
+      schema: {}
+  security:
+    - api_key: []
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: authorization
+    in: header
+definitions:
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string

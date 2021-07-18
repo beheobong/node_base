@@ -1,0 +1,7 @@
+apps:
+  - script: ./index.js
+    name: "api"
+    instances: 1
+    max_memory_restart: "3G"
+    node_args: "--expose-gc --max-old-space-size=4096"
+    exec_mode: "cluster"

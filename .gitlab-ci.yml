@@ -1,0 +1,9 @@
+build_image:
+  tags:
+    - staging
+  script:
+    - docker build -t media-api:lts .
+    - docker ps -q --filter "name=gitlab-runner-media-api" | grep -q . && docker container stop gitlab-runner-media-api || echo not exist container gitlab-runner-media-api
+    - docker run --rm -d -p 20604:3000 --env-file /usr/env/media-api.env --name gitlab-runner-media-api media-api:lts
+  only:
+    - develop
